@@ -1,0 +1,80 @@
+<div class="container">
+  <form (ngSubmit)="submitForm()">
+    <div>
+      <label for="claveU">Usuario:</label>
+      <select id="claveU" name="claveU" [(ngModel)]="registro.claveU" (ngModelChange)="onUsuarioChange($event)">
+        <option *ngFor="let usuario of usuarios" [value]="usuario.claveU">{{ usuario.nombreU }}</option>
+      </select>
+    </div>
+    <div>
+      <label for="numeroTel">Número de Teléfono:</label>
+      <select id="numeroTel" name="numeroTel" [(ngModel)]="registro.numeroTel">
+        <option *ngFor="let telefono of telefonosUsuario" [value]="telefono.numeroTel">{{ telefono.numeroTel }}</option>
+      </select>
+    </div>
+    <div>
+      <label for="fechaLlamada">Fecha de Llamada:</label>
+      <input type="date" id="fechaLlamada" name="fechaLlamada" [(ngModel)]="registro.fechaLlamada">
+    </div>
+    <div>
+      <label for="minutosUtilizados">Minutos Utilizados:</label>
+      <input type="number" id="minutosUtilizados" name="minutosUtilizados" [(ngModel)]="registro.minutosUtilizados">
+    </div>
+    <div>
+      <label for="numeroMarcado">Número Marcado:</label>
+      <input type="text" id="numeroMarcado" name="numeroMarcado" [(ngModel)]="registro.numeroMarcado">
+    </div>
+    <div>
+      <label for="claveTipoLlamada">Tipo de Llamada:</label>
+      <select id="claveTipoLlamada" name="claveTipoLlamada" [(ngModel)]="registro.claveTipoLlamada">
+        <option *ngFor="let tipoLlamada of tiposLlamada" [value]="tipoLlamada.claveTipoLlamada">{{ tipoLlamada.nombreTipo }}</option>
+      </select>
+    </div>
+    <button type="submit">{{ editando ? 'Actualizar Llamada' : 'Registrar Llamada' }}</button>
+  </form>
+
+  <div class="filtros">
+    <!-- Campos de filtro -->
+    <div>
+      <input type="text" placeholder="Número de Registro" [(ngModel)]="filtro.numeroRegistro">
+      <input type="text" placeholder="Usuario" [(ngModel)]="filtro.claveU">
+      <input type="text" placeholder="Número de Teléfono" [(ngModel)]="filtro.numeroTel">
+      <input type="date" placeholder="Fecha de Llamada" [(ngModel)]="filtro.fechaLlamada">
+      <input type="text" placeholder="Minutos Utilizados" [(ngModel)]="filtro.minutosUtilizados">
+      <input type="text" placeholder="Número Marcado" [(ngModel)]="filtro.numeroMarcado">
+      <input type="text" placeholder="Tipo de Llamada" [(ngModel)]="filtro.claveTipoLlamada">
+    </div>
+    <!-- Botón para aplicar el filtro -->
+    <button (click)="aplicarFiltro()">Aplicar Filtro</button>
+  </div>
+</div>
+
+<table>
+  <thead>
+    <tr >
+      <th># Registro</th>
+      <th>Usuario</th>
+      <th>Número de Teléfono</th>
+      <th>Fecha de Llamada</th>
+      <th>Minutos Utilizados</th>
+      <th>Número Marcado</th>
+      <th>Tipo de Llamada</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let registro of registrosLlamadasFiltrados">
+      <td>{{ registro.numeroRegistro }}</td>
+      <td>{{ registro.claveU }}</td>
+      <td>{{ registro.numeroTel }}</td>
+      <td>{{ registro.fechaLlamada | date }}</td>
+      <td>{{ registro.minutosUtilizados }}</td>
+      <td>{{ registro.numeroMarcado }}</td>
+      <td>{{ registro.claveTipoLlamada }}</td>
+      <td>
+        <button (click)="editarRegistro(registro)">Editar</button>
+        <button (click)="eliminarRegistro(registro.numeroRegistro)">Eliminar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
